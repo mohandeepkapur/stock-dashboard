@@ -6,7 +6,7 @@ function App() {
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/hello')
-      .then(response => {
+      .then(response => { // lambdas executed when callback func triggered - everything is event-driven for GUIs
         setData(response.data);
       })
       .catch(error => {
