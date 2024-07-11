@@ -1,6 +1,8 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app) # lu!
 
 # client visits URL, get json in return
 # edits affect run-time!!!!
