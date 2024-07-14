@@ -1,38 +1,67 @@
-.App {
-  text-align: center;
+
+/* .container {
+  max-width: 860px;
+  margin: 0 auto;
+}  
+*/
+
+body {
+  margin: 0;
+  background-color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app {
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-header-loc {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  font-size: calc(5px + 2vmin);
+  padding: 20px; 
+  /* background-color: rgb(18, 78, 20);  */
+}
+
+.flex-container-center {
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+  background-color: grey;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  margin: 0 auto 10px;
+  max-width: 90%;
+  border-radius: 10px;
+}
+
+.flex-item {
+  background-color: grey;
   color: white;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: center;
+  flex: 1 1 100px; 
+  order: 0;
 }
 
-.App-link {
-  color: #61dafb;
-}
+/*
+how to split a webpage into different sections - css classes
+populate those sections with react components
+*/
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*
+.Section {
+  margin: 10px 0;
+  width: 100%; 
+  max-width: 860px;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+*/
