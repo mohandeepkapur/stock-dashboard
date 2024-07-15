@@ -1,18 +1,11 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types'
+import React from 'react';
 
-export default class SubmitButton extends Component {
-    render() {
-        return (
-            <button onClick={this.props.onClick}>
-                {this.props.label}
-            </button>
-        );
-    }
+const SubmitButton = (props) => {
+    return (
+        <button onClick={props.onClick}>
+            {props.label}
+        </button>
+    );
 }
 
-// prov by container
-SubmitButton.propTypes = {
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-};
+export default SubmitButton;

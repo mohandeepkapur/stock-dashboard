@@ -1,8 +1,9 @@
-from quart import Quart, jsonify
+from quart import Quart, jsonify, Response
+from quart.wrappers.response import ResponseBody, DataBody
 from quart_cors import cors
 from quart import request
 from quart import abort
-from model.stock_dashboard_td_model import StockDashboardTDModel
+from src.model.stock_dashboard_td_model import StockDashboardTDModel
 
 # in back-sd, run python3 -m src.server.sd_server
 
@@ -28,10 +29,10 @@ async def provide_price_time_series():
             interval=interval.strip()
         )
     except ValueError as e:
-        abort(400, description=str(e))
+        abort(400, str(e)) # setStatus causes
     except IOError as e:
         # upstream server's fault
-        abort(502, description=str(e))
+        abort(502, str(e))
     
     return jsonify(resp)
 
@@ -40,20 +41,20 @@ async def provide_indicator_time_series():
     """
     Provides Indicator time-series for given symbol, date-range, interval and indicator.
     """
-
-    symbol = request.args.get('symbol')
-    start_date = request.args.get('startDate')
-    end_date = request.args.get('endDate')
-    interval = request.args.get('interval')
-    indicator = request.args.get('indicator')
-
-    resp = sd_model.obs_tech_ind_time_series(
-        symbol=symbol.strip(),
-        start_date=start_date.strip(),
-        end_date=end_date.strip(),
-        interval=interval.strip(),
-        indicator=indicator.strip()
-    )
+    #
+    # symbol = request.args.get('symbol')
+    # start_date = request.args.get('startDate')
+    # end_date = request.args.get('endDate')
+    # interval = request.args.get('interval')
+    # indicator = request.args.get('indicator')
+    #
+    # resp = sd_model.obs_tech_ind_time_series(
+    #     symbol=symbol.strip(),
+    #     start_date=start_date.strip(),
+    #     end_date=end_date.strip(),
+    #     interval=interval.strip(),
+    #     indicator=indicator.strip()
+    # )
 
     return jsonify(resp)
 

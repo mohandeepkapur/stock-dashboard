@@ -2,9 +2,8 @@ import functools
 
 from twelvedata import TDClient
 from twelvedata.exceptions import TwelveDataError, BadRequestError, InternalServerError, InvalidApiKeyError
-from model.stock_dashboard_model_interface import StockDashboardModel
 from datetime import datetime, timedelta
-
+from src.model.stock_dashboard_model_interface import StockDashboardModel
 
 class StockDashboardTDModel(StockDashboardModel):
     """
@@ -65,14 +64,14 @@ class StockDashboardTDModel(StockDashboardModel):
             '1h': 60,
             '2h': 120,
             '4h': 240,
-            '1day': 1440,
-            '1week': 10080,
-            '1month': 43200
+            '1day': 420,
+            '1week': 2940,
+            '1month': 11760
         }
 
         for interval_name, interval_in_min in sorted(intervals.items(), key=lambda x: x[1]):
             num_data_points = total_minutes / interval_in_min
-            if num_data_points <= 500:
+            if num_data_points <= 2500: # 2500
                 return interval_name
 
         raise ValueError("Invalid date-range...") # change

@@ -1,45 +1,73 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-export default class CandleChart extends Component {
+const CandleChart = ({symbol, candleData, markVolData}) => {
+    const options = {
+        // three configs bellow common to all funcs
+        chart: {
+            type: 'candlestick',
+            height: 350
+        },
+        tooltip: {
+            theme: 'dark'
+        },
+        title: {
+            text: symbol
+                  + " OHLC Price & MV Time-Series ",
+            align: 'center'
+        },
+        xaxis: {
+            type: 'datetime',
+            labels: {
+                datetimeUTC: false
+            }
+        },
+        colors: ['#7CB285', '#C2D8DC', '#fc3114'],
+        // sep configs for sep funcs
+        yaxis: [{
+            title: {
+                text: 'USD',
+            },
+            labels: {
+                formatter: function (val) {
+                    return "$" + Intl.NumberFormat(
+                        'en-US', {
+                            notation: "compact",
+                            maximumFractionDigits: 2
+                        }).format(val);
+                }
+            }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            series: [{
-                data: props.chartData
-            }],
-            options: {
-                chart: {
-                    type: 'candlestick',
-                    height: 350
-                },
-                title: {
-                    text: this.props.symbol,
-                    align: 'left'
-                },
-                xaxis: {
-                    type: 'datetime'
-                },
-                yaxis: {
-                    tooltip: {
-                        enabled: true
-                    }
+        }, {
+            opposite: true,
+            title: {
+                text: 'Market Volume'
+            },
+            labels: {
+                formatter: function (val) {
+                    return Intl.NumberFormat('en-US', {
+                        notation: "compact",
+                        maximumFractionDigits: 2
+                    }).format(val);
                 }
             },
-        };
-    }
+            min: 0
+        }]
+    };
 
-    render() {
-        return (
-            <div>
-                <div id="chart">
-                    <ReactApexChart options={this.state.options} series={this.state.series}
-                                    type="candlestick" height={350}/>
-                </div>
-                <div id="html-dist"></div>
-            </div>
-        );
-    }
-
+    return (
+        <div className={'flex-item'}>
+            <ReactApexChart
+                options={options}
+                series={[
+                    {name: 'OHLC Price', type: 'candlestick', data: candleData},
+                    {name: 'Market Volume', type: 'bar', data: markVolData}
+                ]}
+                type="candlestick"
+                height={350}
+            />
+        </div>
+    );
 }
+
+export default React.memo(CandleChart);

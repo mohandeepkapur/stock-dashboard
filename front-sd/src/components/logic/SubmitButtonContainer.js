@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
-import SubmitButton from '../view/SubmitButton';
+import React from 'react';
+import SubmitButton from "../view/SubmitButton";
 
-export default class SubmitButtonContainer extends Component {
+const SubmitButtonContainer = (props) => {
 
-    handleSubmit = () => {
-        this.props.onClick();
+    const handleSubmit = () => {
+        props.onClick();
     }
 
-    render() {
-        return <SubmitButton label={this.props.label} onClick={this.handleSubmit}/>;
-    }
-
+    return <SubmitButton label={props.label} onClick={handleSubmit}/>;
 }
+
+export default SubmitButtonContainer;

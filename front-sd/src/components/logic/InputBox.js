@@ -1,22 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 
+const InputBox = (props) => {
 
-// get rid of this
-
-export default class InputBox extends Component {
-
-    handleChange = (event) => {
-        this.props.onChange(event.target.value);
+    const handleChange = (event) => {
+        props.onChange(event.target.value);
     }
 
-    render() {
-        return (
-            <input
-                type="text"
-                value={this.props.value}
-                onChange={this.handleChange}
-            />
-        );
-    }
-
+    return (
+        <input type="text" value={props.value} onChange={handleChange}/>
+    );
 }
+
+export default InputBox;

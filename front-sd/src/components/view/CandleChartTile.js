@@ -61,13 +61,13 @@ export default class CandleChartTile extends Component {
                         format.
                     </div>
                     <div className='flex-item'>
-                        symbol <InputBox value={symbol} onChange={setSymbolAsInput}/>
+                        Symbol: <InputBox value={symbol} onChange={setSymbolAsInput}/>
                     </div>
                     <div className='flex-item'>
-                        start date <InputBox value={startDate} onChange={setStartDateAsInput}/>
+                        Start Date: <InputBox value={startDate} onChange={setStartDateAsInput}/>
                     </div>
                     <div className='flex-item'>
-                        end date <InputBox value={endDate} onChange={setEndDateAsInput}/>
+                        End Date: <InputBox value={endDate} onChange={setEndDateAsInput}/>
                     </div>
                     <div className='flex-item'>
                         <SubmitButtonContainer label={'Submit'} onClick={sendUserInputToChart}/>

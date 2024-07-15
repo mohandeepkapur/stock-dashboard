@@ -11,8 +11,7 @@ export default class SdApiClient {
      * @returns {Promise<any>}
      */
     static async fetchCandlestickChartData(symbol, startDate, endDate, interval) {
-        // trycatch ***
-        console.log('Connection attempted... ');
+        console.log('Connection attempted... '); // tc
         const response = await fetch( // ALWAYS provides Response obj
             `http://127.0.0.1:5000/sd-api/price-time-series?
                     &symbol=${symbol}
