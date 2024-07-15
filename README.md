@@ -7,6 +7,9 @@ Current Functionality:
 Missing:
 - TwelveData Python SDK doesn't support querying technical indicator functions. Would need to connect frontend directly to TwelveData api URL, which breaks third-party api abstraction design decision.
 
+Notes:
+- Gaps displayed in the 1 week and 1 month intervals are due to no trading data being available through API (weekends or holidays).
+
 # How to use:
 
 Free API key needed by Twelve Data. Pass it into model in sd_server's main method.
