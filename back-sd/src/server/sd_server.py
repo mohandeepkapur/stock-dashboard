@@ -36,27 +36,6 @@ async def provide_price_time_series():
 
     return jsonify(resp)
 
-@sd_server.route('/sd-api/indicator-time-series', methods=['GET'])
-async def provide_indicator_time_series():
-    """
-    Provides Indicator time-series for given symbol, date-range, interval and indicator.
-    """
-    #
-    # symbol = request.args.get('symbol')
-    # start_date = request.args.get('startDate')
-    # end_date = request.args.get('endDate')
-    # interval = request.args.get('interval')
-    # indicator = request.args.get('indicator')
-    #
-    # resp = sd_model.obs_tech_ind_time_series(
-    #     symbol=symbol.strip(),
-    #     start_date=start_date.strip(),
-    #     end_date=end_date.strip(),
-    #     interval=interval.strip(),
-    #     indicator=indicator.strip()
-    # )
-
-    return jsonify(resp)
 
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()
