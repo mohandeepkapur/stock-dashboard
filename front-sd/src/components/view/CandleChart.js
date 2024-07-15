@@ -15,8 +15,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
             theme: 'dark'
         },
         title: {
-            text: symbol
-                  + " OHLC Price & MV Time-Series ",
+            text: " OHLC and MV Time-Series: " + symbol,
             align: 'center'
         },
         xaxis: {
@@ -63,7 +62,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
             <ReactApexChart
                 options={options}
                 series={[
-                    {name: 'OHLC Price', type: 'candlestick', data: candleData},
+                    {name: 'OHLC', type: 'candlestick', data: candleData},
                     {name: 'Market Volume', type: 'bar', data: markVolData}
                 ]}
                 type="candlestick"
