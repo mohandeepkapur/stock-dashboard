@@ -1,4 +1,3 @@
-
 import React, {Component, memo, useEffect, useState} from 'react';
 import SdApiClient from '../../sd-api-client/SdApiClient';
 import ReactApexChart from 'react-apexcharts';
@@ -8,78 +7,62 @@ import CandleChart from '../view/CandleChart';
 
 // lambdas can be components as well... should be using this paradigm over classes
 // re-renders only when new params provided through parent component - memoization
-const CandleChartContainer = ({ symbol, startDate, endDate }) => {
+const CandleChartContainer = ({symbol, startDate, endDate}) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const [candleData, setCandleData] = useState(null);
-    const [options, setOptions] = useState({options: {
-            chart: {
-                type: 'candlestick',
-                height: 350
-            },
-            title: {
-                text: 'CandleStick Chart',
-                align: 'left'
-            },
-            xaxis: {
-                type: 'datetime'
-            },
-            yaxis: {
-                tooltip: {
-                    enabled: true
-                }
-            }
-        }});
+    const [options, setOptions] = useState({
+                                               options: {
+                                                   // three configs bellow common to all funcs
+                                                   chart: {
+                                                       type: 'candlestick',
+                                                       height: 350
+                                                   },
+                                                   title: {
+                                                       text: symbol + " OHLC Price & MV Time-Series ",
+                                                       align: 'center'
+                                                   },
+                                                   xaxis: {
+                                                       type: 'datetime'
+                                                   },
+                                                   colors: ['#7CB285', '#C2D8DC', '#A33424'],
+                                                   // sep configs for sep funcs
+                                                   yaxis: [{
+                                                       title: {
+                                                           text: 'USD',
+                                                       },
+                                                       labels: {
+                                                           formatter: function (val) {
+                                                               return "$" + Intl.NumberFormat(
+                                                                   'en-US', {
+                                                                       notation: "compact",
+                                                                       maximumFractionDigits: 2
+                                                                   }).format(val);
+                                                           }
+                                                       }
+
+                                                   }, {
+                                                       opposite: true,
+                                                       title: {
+                                                           text: 'Market Volume'
+                                                       },
+                                                       labels: {
+                                                           formatter: function (val) {
+                                                               return Intl.NumberFormat('en-US', {
+                                                                   notation: "compact",
+                                                                   maximumFractionDigits: 2
+                                                               }).format(val);
+                                                           }
+                                                       },
+                                                       min: 0
+                                                   }]
+                                               }
+                                           });
 
     const [markVolData, setMarkVolData] = useState(null);
-    // const [areaOptions] = useState( {optionsBar: {
-    //         chart: {
-    //             height: 160,
-    //             type: 'bar',
-    //             brush: {
-    //                 enabled: true,
-    //                 target: 'candles'
-    //             },
-    //             selection: {
-    //                 enabled: true,
-    //                 xaxis: {
-    //                     min: new Date('20 Jan 2017').getTime(),
-    //                     max: new Date('10 Dec 2017').getTime()
-    //                 },
-    //                 fill: {
-    //                     color: '#ccc',
-    //                     opacity: 0.4
-    //                 },
-    //                 stroke: {
-    //                     color: '#0D47A1',
-    //                 }
-    //             },
-    //         },
-    //         dataLabels: {
-    //             enabled: false
-    //         },
-    //         plotOptions: {
-    //             bar: {
-    //                 columnWidth: '80%',
-    //                 colors: {
-    //                     ranges: [{
-    //                         from: -1000,
-    //                         to: 0,
-    //                         color: '#F15B46'
-    //                     }, {
-    //                         from: 1,
-    //                         to: 10000,
-    //                         color: '#FEB019'
-    //                     }],
-    //
-    //                 },
-    //             }
-    //         }}});
-
-
 
     // if new params provided, pull from api using them
     useEffect(() => {
@@ -87,20 +70,22 @@ const CandleChartContainer = ({ symbol, startDate, endDate }) => {
             setLoading(true);
             setError(false);
             setErrorMessage('');
+            debugger
             try {
                 // make api call, convert to apex-chart compat. data
                 const rawPriceData = await SdApiClient.fetchCandlestickChartData(symbol,
                                                                                  startDate,
                                                                                  endDate,
                                                                                  'autointerval');
-                const apexChartData = rawPriceData.map(item => ({
+                let apexChartData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.open), parseFloat(item.high),
                         parseFloat(item.low), parseFloat(item.close)]
                 }));
+                apexChartData = apexChartData.reverse();
                 const apexBarChartData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
-                    y: [parseFloat(item.volume) / 10000000]
+                    y: [parseFloat(item.volume)]
                 }));
                 console.log(JSON.stringify(apexBarChartData))
                 setCandleData(apexChartData);
@@ -125,15 +110,15 @@ const CandleChartContainer = ({ symbol, startDate, endDate }) => {
             <div>
                 <div className={'flex-item'}>
                     <ReactApexChart
-                        options={ options }
+                        options={options.options}
                         series={
-                                [
-                                    // {data: candleData}
-                                    {name: 'Candlestick', type: 'candlestick', data: candleData},
-                                    //{name: 'Market Volume', type: 'area', data: markVolData}
-                                ]
-                               }
-                        type="candlestick" height={ 350 }
+                            [
+                                // {data: candleData}
+                                {name: 'OHLC Price', type: 'candlestick', data: candleData},
+                                {name: 'Market Volume', type: 'area', data: markVolData}
+                            ]
+                        }
+                        type="candlestick" height={350}
                     />
 
                 </div>

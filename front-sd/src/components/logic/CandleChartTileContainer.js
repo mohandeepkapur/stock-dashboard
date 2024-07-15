@@ -4,11 +4,12 @@ import CandleChartTile from '../view/CandleChartTile';
 // whenever callback triggered, component state changes <- react re-renders component
 
 const CandleChartTileContainer = () => {
-    const [symbol, setSymbol] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [symbol, setSymbol] = useState('AAPL');
+    const [startDate, setStartDate] = useState(getDateRange('1yr').startDate);
+    const [endDate, setEndDate] = useState(getDateRange('1yr').endDate);
+
     const [chartInputData, setChartInputData] =
-        useState({symbol:'AAPL', startDate:'2020-02-02', endDate:'2021-02-02'}); //init
+        useState({symbol:'AAPL', startDate:startDate, endDate:endDate}); //init
 
     const setSymbolAsInput = (value) => {
         setSymbol(value);
@@ -38,8 +39,8 @@ const CandleChartTileContainer = () => {
             return;
         }
 
-        let sD = getDateRange(range).startDate;
-        let eD = getDateRange(range).endDate;
+        const sD = getDateRange(range).startDate;
+        const eD = getDateRange(range).endDate;
 
         // changing chart input state will force chartcont to re-render -> new api call
         setChartInputData({symbol: symbol, startDate: sD, endDate: eD});
