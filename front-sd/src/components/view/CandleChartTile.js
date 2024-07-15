@@ -21,15 +21,15 @@ export default class CandleChartTile extends Component {
             <div>
                 <div className='flex-container-center'>
                     <div className='flex-item'>
-                        <SubmitButtonContainer label={'Yesterday'}
-                                               onClick={() => sendRangeInputToChart('ydy')}/>
+                        <SubmitButtonContainer label={'1 Day'}
+                                               onClick={() => sendRangeInputToChart('1day')}/>
                     </div>
                     <div className='flex-item'>
-                        <SubmitButtonContainer label={'Week'}
+                        <SubmitButtonContainer label={'1 Week'}
                                                onClick={() => sendRangeInputToChart('week')}/>
                     </div>
                     <div className='flex-item'>
-                        <SubmitButtonContainer label={'Month'}
+                        <SubmitButtonContainer label={'1 Month'}
                                                onClick={() => sendRangeInputToChart('month')}/>
                     </div>
                     <div className='flex-item'>

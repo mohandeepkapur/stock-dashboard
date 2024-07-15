@@ -39,11 +39,13 @@ const CandleChartTileContainer = () => {
             return;
         }
 
-        const sD = getDateRange(range).startDate;
-        const eD = getDateRange(range).endDate;
+        const startDate = getDateRange(range).startDate;
+        const endDate = getDateRange(range).endDate;
 
         // changing chart input state will force chartcont to re-render -> new api call
-        setChartInputData({symbol: symbol, startDate: sD, endDate: eD});
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setChartInputData({symbol: symbol, startDate: startDate, endDate: endDate});
     }
 
     function getDateRange(option) {
@@ -52,10 +54,15 @@ const CandleChartTileContainer = () => {
         let endDate = new Date(today); // default end date is today
 
         switch (option) {
-            case 'ydy':
-                // not working, maybe bc no trading this weekend
+            case '1day':
+                // td spef?
                 startDate = new Date();
                 startDate.setDate(today.getDate() - 1);
+                if (startDate.getDay() === 6) {
+                    startDate.setDate(startDate.getDate() - 1);
+                } else if (startDate.getDay() === 0) { // Sunday
+                    startDate.setDate(startDate.getDate() - 2);
+                }
                 break;
             case 'week':
                 startDate = new Date();

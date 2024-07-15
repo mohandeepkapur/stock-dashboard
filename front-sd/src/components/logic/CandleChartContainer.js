@@ -21,14 +21,20 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
                                                        type: 'candlestick',
                                                        height: 350
                                                    },
+                                                   tooltip : {
+                                                       theme:'dark'
+                                                   },
                                                    title: {
                                                        text: symbol + " OHLC Price & MV Time-Series ",
                                                        align: 'center'
                                                    },
                                                    xaxis: {
-                                                       type: 'datetime'
+                                                       type: 'datetime',
+                                                       labels: {
+                                                           datetimeUTC:false
+                                                       }
                                                    },
-                                                   colors: ['#7CB285', '#C2D8DC', '#A33424'],
+                                                   colors: ['#7CB285', '#C2D8DC', '#fc3114'],
                                                    // sep configs for sep funcs
                                                    yaxis: [{
                                                        title: {
@@ -77,19 +83,20 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
                                                                                  startDate,
                                                                                  endDate,
                                                                                  'autointerval');
-                let apexChartData = rawPriceData.map(item => ({
+                let apexOptPriceData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.open), parseFloat(item.high),
                         parseFloat(item.low), parseFloat(item.close)]
                 }));
-                apexChartData = apexChartData.reverse();
-                const apexBarChartData = rawPriceData.map(item => ({
+                apexOptPriceData = apexOptPriceData.reverse();
+                let apexOptMVData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.volume)]
                 }));
-                console.log(JSON.stringify(apexBarChartData))
-                setCandleData(apexChartData);
-                setMarkVolData(apexBarChartData);
+                apexOptMVData = apexOptMVData.reverse();
+                console.log(JSON.stringify(apexOptMVData))
+                setCandleData(apexOptPriceData);
+                setMarkVolData(apexOptMVData);
             } catch (error) {
                 setError(true);
                 setErrorMessage(error.message);
