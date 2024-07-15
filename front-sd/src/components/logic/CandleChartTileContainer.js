@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import CandleChartTile from '../view/CandleChartTile';
 
-// whenever callback triggered, component state changes <- react re-renders component
-
+/**
+ * Interactive tile that contains linked buttons, input boxes, and price/mv time-series chart.
+ */
 const CandleChartTileContainer = () => {
     const [symbol, setSymbol] = useState('AAPL');
     const [startDate, setStartDate] = useState(getDateRange('1yr').startDate);

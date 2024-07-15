@@ -9,8 +9,6 @@ class StockDashboardModel(ABC):
     def connect(self, apikey: str):
         """
         Connect to relevant API.
-        :param apikey:          API key
-        :return:                void
         """
         pass
 
@@ -33,18 +31,13 @@ class StockDashboardModel(ABC):
         """
         pass
 
-    @abstractmethod
-    def obs_tech_ind_time_series(self, symbol: str, start_date: str, end_date: str, ind: str):
-        """
-        Provides technical indicator time-series data for a given symbol in JSON format.
-
-        :param symbol:
-        :param start_date:
-        :param end_date:
-        :param ind:
-        :return:
-        """
-        pass
+    # methods for additional features below:
+    # @abstractmethod
+    # def obs_tech_ind_time_series(self, symbol: str, start_date: str, end_date: str, ind: str):
+    #     """
+    #     Provides technical indicator time-series data for a given symbol in JSON format.
+    #     """
+    #     pass
 
     # @abstractmethod
     # def obs_realtime_price(self, symbol: str):

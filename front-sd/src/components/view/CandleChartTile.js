@@ -3,6 +3,9 @@ import CandleChartContainer from '../logic/CandleChartContainer';
 import SubmitButtonContainer from '../logic/SubmitButtonContainer';
 import InputBox from '../logic/InputBox';
 
+/**
+ * Renders interactive Candlestick chart tile (all components: input box, buttons, chart).
+ */
 export default class CandleChartTile extends Component {
     render() {
         const {

@@ -3,8 +3,9 @@ import SdApiClient from '../../sd-api-client/SdApiClient';
 import '../../App.css'
 import CandleChart from "../view/CandleChart";
 
-// lambdas can be components as well... should be using this paradigm over classes
-// re-renders only when new params provided through parent component - memoization
+/**
+ * Container for Candlestick Chart, holds its functionality.
+ */
 const CandleChartContainer = ({symbol, startDate, endDate}) => {
 
     const [loading, setLoading] = useState(true);
@@ -13,7 +14,6 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
     const [candleData, setCandleData] = useState(null);
     const [markVolData, setMarkVolData] = useState(null);
 
-    // if new params provided, pull from api using them
     useEffect(() => {
         const fetchChartData = async () => {
             setLoading(true);

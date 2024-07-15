@@ -1,14 +1,9 @@
 /**
- *
+ * API Client to talk to sd server.
  */
 export default class SdApiClient {
     /**
-     *
-     * @param symbol
-     * @param startDate
-     * @param endDate
-     * @param interval
-     * @returns {Promise<any>}
+     * Fetches both OHLC and Market Volume data.
      */
     static async fetchCandlestickChartData(symbol, startDate, endDate, interval) {
         console.log('Connection attempted... '); // tc
@@ -21,16 +16,9 @@ export default class SdApiClient {
         );
         debugger
         if (!response.ok) {
-            throw new Error(response.status);
+            throw new Error("s" + response.status);
         }
         return await response.json();
-    }
-
-    /**
-     *
-     * @returns {Promise<void>}
-     */
-    static async fetchIndicatorChartData(symbol, startDate, endDate, interval, indicator){
     }
 
 }

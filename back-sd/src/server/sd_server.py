@@ -33,7 +33,7 @@ async def provide_price_time_series():
     except IOError as e:
         # upstream server's fault
         abort(502, str(e))
-    
+
     return jsonify(resp)
 
 @sd_server.route('/sd-api/indicator-time-series', methods=['GET'])

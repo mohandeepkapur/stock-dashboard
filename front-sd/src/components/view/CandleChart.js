@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
+/**
+ * Renders Candlestick Chart w/ MV bars. Component responsible for config.
+ */
 const CandleChart = ({symbol, candleData, markVolData}) => {
     const options = {
         // three configs bellow common to all funcs
