@@ -14,7 +14,7 @@ export default class SdApiClient {
                     &endDate=${endDate}
                     &interval=${interval}`
         );
-        debugger
+        // debugger
         if (!response.ok) {
             let message;
             console.log(response.status)

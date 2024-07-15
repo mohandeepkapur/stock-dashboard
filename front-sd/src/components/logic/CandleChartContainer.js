@@ -19,7 +19,7 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
             setLoading(true);
             setError(false);
             setErrorMessage('');
-            debugger
+            // debugger
             try {
                 // make api call, convert to apex-chart compat. data
                 const rawPriceData = await SdApiClient.fetchCandlestickChartData(symbol, startDate,
