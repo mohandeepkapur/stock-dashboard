@@ -5,8 +5,6 @@ from quart import request
 from quart import abort
 from src.model.stock_dashboard_td_model import StockDashboardTDModel
 
-# in back-sd, run python3 -m src.server.sd_server
-
 sd_server = Quart(__name__)
 sd_server = cors(sd_server)
 
@@ -35,7 +33,6 @@ async def provide_price_time_series():
         abort(502, str(e))
 
     return jsonify(resp)
-
 
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()

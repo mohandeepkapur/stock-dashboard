@@ -1,5 +1,5 @@
 /**
- * API Client to talk to sd server.
+ * Frontend API Client to talk to sd server.
  */
 export default class SdApiClient {
     /**
@@ -16,7 +16,12 @@ export default class SdApiClient {
         );
         debugger
         if (!response.ok) {
-            throw new Error("s" + response.status);
+            let message;
+            if (response.status === 400){
+                message = "API credit usage must refresh, please wait... OR "
+                          + "Bad input... OR not possible for API to pull data...";
+            }
+            throw new Error(message);
         }
         return await response.json();
     }
