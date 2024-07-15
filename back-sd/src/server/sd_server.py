@@ -1,5 +1,4 @@
-from quart import Quart, jsonify, Response
-from quart.wrappers.response import ResponseBody, DataBody
+from quart import Quart, jsonify
 from quart_cors import cors
 from quart import request
 from quart import abort
@@ -27,12 +26,12 @@ async def provide_price_time_series():
             interval=interval.strip()
         )
     except ValueError as e:
-        abort(400, str(e)) # setStatus causes
-    except IOError as e:
-        # upstream server's fault
+        abort(400, str(e))
+    except RuntimeError as e:
         abort(502, str(e))
 
     return jsonify(resp)
+
 
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()

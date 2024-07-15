@@ -25,7 +25,7 @@ class StockDashboardModel(ABC):
                                 "autointerval" selection exists as well, to let model decide
                                 interval based on date-range and bandwidth of API.
         :raise ValueError:      for invalid params
-        :raise IOError:         if unable to retrieve necessary data
+        :raise RuntimeError:    if unable to retrieve necessary data
         :return JSON:           The historical OHLC and MV data
                                 in JSON, keys 'datetime', 'open', 'high', 'low', 'close', 'volume'
         """

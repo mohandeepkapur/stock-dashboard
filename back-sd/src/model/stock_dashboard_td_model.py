@@ -17,14 +17,12 @@ class StockDashboardTDModel(StockDashboardModel):
         try:
             # read from a dir instead
             self.td_client = TDClient(apikey=apikey)
-            # manner of checking apikey below is wasteful
+            # manner of checking apikey validity below is wasteful - forcing error
             # a = self.td_client.price(symbol='TRP:TSX').as_json()
         except InvalidApiKeyError as e:
             raise ValueError(f"Invalid api key...")
 
     def obs_price_time_series(self, symbol: str, start_date: str, end_date: str, interval: str):
-        print(start_date)
-        print(end_date)
         try:
             if interval == "autointerval":
                 interval = self._decide_interval(start_date, end_date)
@@ -39,12 +37,12 @@ class StockDashboardTDModel(StockDashboardModel):
         except (TwelveDataError, BadRequestError) as e:
             raise ValueError(f"Invalid values passed: {e}")
         except InternalServerError as e:
-            raise IOError(f"Upstream server failure: {e}")
+            raise RuntimeError(f"Upstream server failure: {e}")
         return price_ts
 
     def _decide_interval(self, start_date: str, end_date: str):
         """
-        Choose interval given date-range for largest # of returned bars <= 500.
+        Choose interval given date-range for largest # of returned bars <= threshold.
         """
 
         start = datetime.strptime(start_date, '%Y-%m-%d')

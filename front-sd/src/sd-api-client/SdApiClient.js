@@ -17,13 +17,15 @@ export default class SdApiClient {
         debugger
         if (!response.ok) {
             let message;
-            if (response.status === 400){
-                message = "API credit usage must refresh, please wait... OR "
-                          + "Bad input... OR not possible for API to pull data...";
+            console.log(response.status)
+            if (response.status === 400) {
+                // create more custom error messages
+                message = "Invalid params OR Dashboard unable to find requested data...";
+            } else if (response.status === 502) {
+                message = "Third-party API supporting dashboard has failed..."
             }
             throw new Error(message);
         }
         return await response.json();
     }
-
 }

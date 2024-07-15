@@ -39,7 +39,6 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
                         }).format(val);
                 }
             }
-
         }, {
             opposite: true,
             title: {

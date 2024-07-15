@@ -50,7 +50,6 @@ export default class CandleChartTile extends Component {
                 </div>
                 <div className='flex-container-center'>
                     <div className='flex-item'>
-                        {/*whenever submit button pressed, new data passed to CCC*/}
                         <CandleChartContainer
                             symbol={chartInputData.symbol}
                             startDate={chartInputData.startDate}
@@ -59,7 +58,7 @@ export default class CandleChartTile extends Component {
                     </div>
                 </div>
                 <div className='flex-container-center'>
-                    <div style={{width: '100%', textAlign: 'center', color: 'white'}}>
+                    <div style={{width: '100%', textAlign: 'center', color: 'black'}}>
                         Please provide symbol in ticker:exchange format, and dates in yyyy-mm-dd
                         format.
                     </div>

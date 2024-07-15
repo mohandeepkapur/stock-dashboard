@@ -2,7 +2,7 @@ import React from 'react';
 import SubmitButton from "../view/SubmitButton";
 
 /**
- * Functionality Submit Button.
+ * Functionality for Submit Button.
  */
 const SubmitButtonContainer = (props) => {
     const handleSubmit = () => {
