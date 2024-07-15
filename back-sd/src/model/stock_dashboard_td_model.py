@@ -18,7 +18,7 @@ class StockDashboardTDModel(StockDashboardModel):
             # read from a dir instead
             self.td_client = TDClient(apikey=apikey)
             # manner of checking apikey validity below is wasteful - forcing error
-            # a = self.td_client.price(symbol='TRP:TSX').as_json()
+            a = self.td_client.price(symbol='TRP:TSX').as_json()
         except InvalidApiKeyError as e:
             raise ValueError(f"Invalid api key...")
 
