@@ -7,12 +7,9 @@ Current Functionality:
 Missing:
 - TwelveData Python SDK doesn't support querying technical indicator functions. Would need to connect frontend directly to TwelveData api URL, which breaks third-party api abstraction design decision.
 
-To Be Done:
-- Create custom http errors in backend, to allow for more descriptive/varied error descriptions for user.
-
 # How to use:
 To set up SD-Server:
-in back-sd, run the command: `python3 -m src.server.sd_server`. Use the URL provided by the "Running on"
+in back-sd, run the command: `python3 -m src.server.sd_server`. Use the URL provided to link SdApiClient to the server, if not the same.
 
 To set up React front-end:
 in front-sd, run the command: `npm start`
