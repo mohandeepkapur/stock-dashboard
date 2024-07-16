@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
-import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
-import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the Data Grid
 
-const InsiderTradingGridContainer = () => {
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import SdApiClient from "../../sd-api-client/SdApiClient"; // Optional Theme applied to the Data Grid
+
+const InsiderTradingGridContainer = ({symbol}) => {
     // Row Data: The data to be displayed.
     /*
     name:
@@ -15,41 +17,25 @@ const InsiderTradingGridContainer = () => {
     description
      */
     const [rowData, setRowData] = useState([
-                                               {
-                                                   make: "Tesla",
-                                                   model: "Model Y",
-                                                   price: 64950,
-                                                   electric: true
-                                               },
-                                               {
-                                                   make: "Ford",
-                                                   model: "F-Series",
-                                                   price: 33850,
-                                                   electric: false
-                                               },
-                                               {
-                                                   make: "Toyota",
-                                                   model: "Corolla",
-                                                   price: 29600,
-                                                   electric: false
-                                               },
+                                               {name: "Bob", position: "Goodman"}
                                            ]);
 
     // Column Definitions: Defines the columns to be displayed.
-    const [colDefs, setColDefs] = useState([
-                                               {field: "make"},
-                                               {field: "model"},
-                                               {field: "price"},
-                                               {field: "electric"}
+    const [columnDefs, setColumnDefs] = useState([
+                                               {headerName: "Name", field: "name"},
+                                               {headerName: "Position", field: "position"},
+                                               {headerName: "Date Reported", field: "date_reported"},
+                                               {headerName: "Direct", field: "is_direct"},
+                                               {headerName: "Shares", field: "shares"},
+                                               {headerName: "Values",field: "values"},
+                                               {headerName: "Description", field: "description"}
                                            ]);
     return (
         <div
-            className="ag-theme-quartz" // applying the Data Grid theme
+            className="ag-theme-alpine" // applying the Data Grid theme
             style={{ height: 500 }} // the Data Grid will fill the size of the parent container
         >
-            <AgGridReact>
-
-            </AgGridReact>
+            <AgGridReact columnDefs={columnDefs} rowData={rowData}/>
         </div>
     );
 }

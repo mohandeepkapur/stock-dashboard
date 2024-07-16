@@ -36,7 +36,7 @@ async def provide_price_time_series():
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()
     try:
-        sd_model.connect(apikey="")
+        sd_model.connect(apikey="2a27db5e2ffd4034a6407a67784a485f")
         sd_server.run(debug=True)
     except ValueError as e:
         print(e)

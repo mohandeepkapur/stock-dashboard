@@ -3,6 +3,7 @@ import CandleChartContainer from '../logic/CandleChartContainer';
 import SubmitButtonContainer from '../logic/SubmitButtonContainer';
 import InputBox from '../logic/InputBox';
 import InsiderTradingGridContainer from '../logic/InsiderTradingGridContainer';
+import InsiderTradingChartContainer from "../logic/InsiderTradingChartContainer";
 
 /**
  * Renders interactive Candlestick chart tile (all components: input box, buttons, chart).
@@ -58,6 +59,15 @@ export default class CandleChartTile extends Component {
                         />
                     </div>
                 </div>
+                <div className={'flex-container-center'}>
+                    <h4 style={{width: '100%', textAlign: 'center', color: 'black'}}>
+                        {/*not just symbol, rt updates then*/}
+                        Insider Trading for {chartInputData.symbol}
+                    </h4>
+                    <div className={'flex-item'}>
+                        <InsiderTradingChartContainer symbol={chartInputData.symbol}/>
+                    </div>
+                </div>
                 <div className='flex-container-center'>
                     <div style={{width: '100%', textAlign: 'center', color: 'black'}}>
                         Please provide symbol in ticker:exchange format, and dates in yyyy-mm-dd
@@ -74,15 +84,6 @@ export default class CandleChartTile extends Component {
                     </div>
                     <div className='flex-item'>
                         <SubmitButtonContainer label={'Submit'} onClick={sendUserInputToChart}/>
-                    </div>
-                </div>
-                <div className={'flex-container-center'}>
-                    <h3 style={{width: '100%', textAlign: 'center', color: 'black'}}>
-                        {/*not just symbol, rt updates then*/}
-                        Insider Trading Information for {chartInputData.symbol}
-                    </h3>
-                    <div className={'flex-item'}>
-                        <InsiderTradingGridContainer symbol={chartInputData.symbol}/>
                     </div>
                 </div>
             </div>

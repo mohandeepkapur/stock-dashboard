@@ -12,7 +12,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
             height: 350
         },
         tooltip: {
-            theme: 'dark'
+            theme: 'dark',
         },
         title: {
             text: " OHLC and MV Time-Series: " + symbol,

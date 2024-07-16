@@ -29,7 +29,7 @@ export default class SdApiClient {
         return await response.json();
     }
 
-    static async fetchInsiderTradingData(symbol) {
+    static async fetchInsiderTradingData(symbol, startDate, endDate) {
         console.log('Connection attempted... insider trading server func... ');
 
     }
