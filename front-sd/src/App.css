@@ -58,19 +58,17 @@ button:hover {
 }
 
 input[type="text"] {
-  background-color: #B3B3B3;
   border: none;
   color: black;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 4px;
   box-sizing: border-box;
-}
-
-input[type="text"] {
   outline: none;
   background-color: #A0A0A0;
 }
+
+
 
 /*
 how to split a webpage into different sections - css classes

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import CandleChartContainer from '../logic/CandleChartContainer';
 import SubmitButtonContainer from '../logic/SubmitButtonContainer';
 import InputBox from '../logic/InputBox';
+import InsiderTradingGridContainer from '../logic/InsiderTradingGridContainer';
 
 /**
  * Renders interactive Candlestick chart tile (all components: input box, buttons, chart).
@@ -73,6 +74,15 @@ export default class CandleChartTile extends Component {
                     </div>
                     <div className='flex-item'>
                         <SubmitButtonContainer label={'Submit'} onClick={sendUserInputToChart}/>
+                    </div>
+                </div>
+                <div className={'flex-container-center'}>
+                    <h3 style={{width: '100%', textAlign: 'center', color: 'black'}}>
+                        {/*not just symbol, rt updates then*/}
+                        Insider Trading Information for {chartInputData.symbol}
+                    </h3>
+                    <div className={'flex-item'}>
+                        <InsiderTradingGridContainer symbol={chartInputData.symbol}/>
                     </div>
                 </div>
             </div>
