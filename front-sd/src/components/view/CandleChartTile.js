@@ -59,15 +59,15 @@ export default class CandleChartTile extends Component {
                         />
                     </div>
                 </div>
-                <div className={'flex-container-center'}>
-                    <h4 style={{width: '100%', textAlign: 'center', color: 'black'}}>
-                        {/*not just symbol, rt updates then*/}
-                        Insider Trading for {chartInputData.symbol}
-                    </h4>
-                    <div className={'flex-item'}>
-                        <InsiderTradingChartContainer symbol={chartInputData.symbol}/>
-                    </div>
-                </div>
+                {/*<div className={'flex-container-center'}>*/}
+                {/*    <h4 style={{width: '100%', textAlign: 'center', color: 'black'}}>*/}
+                {/*        /!*not just symbol, rt updates then*!/*/}
+                {/*        Insider Trading for {chartInputData.symbol}*/}
+                {/*    </h4>*/}
+                {/*    <div className={'flex-item'}>*/}
+                {/*        <InsiderTradingChartContainer symbol={chartInputData.symbol}/>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className='flex-container-center'>
                     <div style={{width: '100%', textAlign: 'center', color: 'black'}}>
                         Please provide symbol in ticker:exchange format, and dates in yyyy-mm-dd

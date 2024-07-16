@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-/**
- * Renders Candlestick Chart w/ MV bars. Component responsible for config.
- */
-const CandleChart = ({symbol, candleData, markVolData}) => {
+const InsiderTradingChart = ({symbol, itData}) => {
     const options = {
         // three configs bellow common to all funcs
         chart: {
@@ -13,10 +10,6 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
         },
         tooltip: {
             theme: 'dark',
-            custom: function({series, seriesIndex, dataPointIndex, w}) {
-                let data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-                return '<div>' + data.z + '<div/>'
-            }
         },
         title: {
             text: " OHLC and MV Time-Series: " + symbol,
@@ -30,7 +23,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
         },
         colors: ['#7CB285', '#C2D8DC', '#fc3114'],
         // sep configs for sep funcs
-        yaxis: [{
+        yaxis: {
             title: {
                 text: 'USD',
             },
@@ -43,21 +36,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
                         }).format(val);
                 }
             }
-        }, {
-            opposite: true,
-            title: {
-                text: 'Market Volume'
-            },
-            labels: {
-                formatter: function (val) {
-                    return Intl.NumberFormat('en-US', {
-                        notation: "compact",
-                        maximumFractionDigits: 2
-                    }).format(val);
-                }
-            },
-            min: 0
-        }]
+        }
     };
 
     return (
@@ -65,14 +44,13 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
             <ReactApexChart
                 options={options}
                 series={[
-                    {name: 'OHLC', type: 'candlestick', data: candleData},
-                    {name: 'Market Volume', type: 'bar', data: markVolData}
+                    {name: 'Ins Trad', type: 'bar', data: itData}
                 ]}
-                type="candlestick"
+                type="bar"
                 height={350}
             />
         </div>
     );
 }
 
-export default React.memo(CandleChart);
+export default InsiderTradingChart;

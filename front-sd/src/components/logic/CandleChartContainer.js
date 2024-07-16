@@ -29,7 +29,8 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
                 let apexOptPriceData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.open), parseFloat(item.high),
-                        parseFloat(item.low), parseFloat(item.close)]
+                        parseFloat(item.low), parseFloat(item.close)],
+                    z: [1009]
                 }));
 
                 apexOptPriceData = apexOptPriceData.reverse();

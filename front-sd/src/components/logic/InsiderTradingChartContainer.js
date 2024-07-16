@@ -3,8 +3,9 @@ import ReactApexChart from 'react-apexcharts';
 import {AgGridReact} from "ag-grid-react";
 import SdApiClient from "../../sd-api-client/SdApiClient";
 import CandleChart from "../view/CandleChart";
+import InsiderTradingChart from "../view/InsiderTradingChart";
 
-const InsiderTradingChartContainer = ({symbol}) => {
+const InsiderTradingChartContainer = ({symbol, startDate, endDate}) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -18,7 +19,12 @@ const InsiderTradingChartContainer = ({symbol}) => {
             setErrorMessage('');
 
             try {
-                const rawITData = await SdApiClient.fetchInsiderTradingData(symbol, startDate, endDate);
+                // const rawITData = await SdApiClient.fetchInsiderTradingData(symbol, startDate, endDate);
+                //
+                // let apexOptITData = rawITData.map(item => ({
+                //     x: new Date(item.date_reported),
+                //     y: [parseFloat(item.shares)]
+                // }));
 
             } catch (error) {
                 setError(true);
