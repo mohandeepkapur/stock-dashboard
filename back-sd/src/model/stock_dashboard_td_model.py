@@ -12,6 +12,13 @@ class StockDashboardTDModel(StockDashboardModel):
         self.td_client = None
 
     def connect(self):
+        """
+        Connect to relevant API using API Key stored in Backend.
+
+        :raise ValueError: for invalid API key
+        :raise FileNotFoundError: if file-path to apikey invalid
+        """
+
         try:
             file = open('src/apikey.txt')
             apikey = file.readline().strip()
@@ -23,58 +30,90 @@ class StockDashboardTDModel(StockDashboardModel):
             raise FileNotFoundError # repeated to be explicit about scope of errors code can throw
 
     def obs_price_time_series(self, symbol: str, start_date: str, end_date: str, interval: str):
+        """
+        Provides historical OHLC (Open, High, Low, Close) and MV (Market Volume) time-series data
+        in JSON format.
+
+        :param symbol:          The ticker and exchange symbol for the stock.
+        :param start_date:      The start date for the time series in yyyy-mm-dd format.
+        :param end_date:        The end date for the time series in yyyy-mm-dd format.
+        :param interval:        Any integer followed with "min, hr, day, week, month".
+                                "autointerval" selection exists as well, to let model decide
+                                interval based on date-range and bandwidth of API.
+        :return JSON:           The historical OHLC and MV data
+                                in JSON, keys 'datetime', 'open', 'high', 'low', 'close', 'volume'.
+        :raise ValueError:      For either params in invalid format
+                                or whether no data available for those params.
+        :raise RunTimeError:    For whether third-party API credit limit reached
+                                or failure on API's end.
+        """
+
+        start_datetime, end_datetime = self._strip_dates(start_date, end_date)
 
         if interval == "autointerval":
-            interval = self._decide_interval(start_date, end_date)
+            interval = self._decide_interval(start_datetime, end_datetime)
 
-        try:
-            price_ts = (
-                self.td_client.time_series(
-                    symbol = symbol,
-                    start_date = start_date,
-                    end_date = end_date,
-                    interval=interval,
-                    outputsize=5000,
-                    timezone="America/New_York"
-                ).as_json()
+        price_ts = (
+            self._td_exception_handling(
+                self.td_client.time_series,
+                symbol = symbol,
+                start_date = start_date,
+                end_date = end_date,
+                interval=interval,
+                outputsize=5000, # max output size
+                timezone="America/New_York"
             )
-        except BadRequestError:
-            raise ValueError("No data for given parameters...")
-        except InternalServerError:
-            raise RuntimeError("Upstream server failure...")
-        except TwelveDataError as e:
-            if "run out of API credits" in str(e):
-                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
-            raise RuntimeError("INVALID INPUT...")
+        )
 
         return price_ts
 
     def obs_insider_trades(self, symbol: str, start_date: str, end_date: str):
+        """
+        Provides historical Insider Trading data (# of company shares sold by internal folks
+        in prominent positions) in JSON format.
 
-        try:
-            unfil_it = (
-                self.td_client.get_insider_transactions(symbol=symbol).as_json()
+        :param symbol:          The ticker and exchange symbol for the stock.
+        :param start_date:      The start date for the time series in yyyy-mm-dd format.
+        :param end_date:        The end date for the time series in yyyy-mm-dd format.
+        :return JSON:           The historical Insider Trading data
+                                in JSON, keys 'full_name', 'is_direct', 'position', 'shares',
+                                              'value', 'date_reported', 'description'.
+        :raise ValueError:      For either params in invalid format
+                                or whether no data available for those params.
+        :raise RunTimeError:    For whether third-party API credit limit reached
+                                or failure on API's end.
+        """
+
+        start_datetime, end_datetime = self._strip_dates(start_date, end_date)
+
+        unfil_it = (
+            self._td_exception_handling(
+                self.td_client.get_insider_transactions,
+                symbol=symbol
             )
-        except BadRequestError:
-            raise ValueError("No data for given parameters...")
-        except InternalServerError:
-            raise RuntimeError("Upstream server failure...")
-        except TwelveDataError as e:
-            if "run out of API credits" in str(e):
-                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
-            raise RuntimeError("INVALID INPUT...")
+        )
 
-        sd = datetime.strptime(start_date, '%Y-%m-%d')
-        ed = datetime.strptime(end_date, '%Y-%m-%d')
         fil_it = []
         for item in unfil_it['insider_transactions']:
             item_date = datetime.strptime(item['date_reported'], '%Y-%m-%d')
-            if sd <= item_date <= ed:
+            if start_datetime <= item_date <= end_datetime:
                 fil_it.append(item)
 
         return fil_it
 
-    def _decide_interval(self, start_date: str, end_date: str):
+    def _strip_dates(self, start_date: str, end_date: str):
+        try:
+            start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+            end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+        except ValueError as e:
+            raise ValueError("Invalid Input...")
+
+        if start_datetime < datetime(year=1900, month=1, day=1) or end_datetime > datetime.now():
+            raise ValueError("Invalid Input...")
+
+        return start_datetime, end_datetime
+
+    def _decide_interval(self, start_date: datetime, end_date: datetime):
         """
         Choose interval given date-range for largest # of returned bars <= threshold.
 
@@ -83,9 +122,7 @@ class StockDashboardTDModel(StockDashboardModel):
         :raise ValueError:  if somehow given timespan cannot be rendered w/ "threshold" datapoints
         """
 
-        start = datetime.strptime(start_date, '%Y-%m-%d')
-        end = datetime.strptime(end_date, '%Y-%m-%d')
-        total_minutes = (end - start).total_seconds() / 60
+        total_minutes = (end_date - start_date).total_seconds() / 60
 
         # in min
         intervals = {
@@ -106,4 +143,15 @@ class StockDashboardTDModel(StockDashboardModel):
         Centralizing Exception Handling for each Model method, since every TD API call
         triggers the same four exception types for the same four reasons.
         """
-        pass
+
+        try:
+            result = func(*args, **kwargs).as_json()
+            return result
+        except BadRequestError:
+            raise ValueError("No data for given parameters...")
+        except InternalServerError:
+            raise RuntimeError("Upstream server failure...")
+        except TwelveDataError as e:
+            if "run out of API credits" in str(e):
+                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
+            raise ValueError("Invalid Input...")
