@@ -48,7 +48,7 @@ class StockDashboardTDModel(StockDashboardModel):
                                 or failure on API's end.
         """
 
-        start_datetime, end_datetime = self._strip_dates(start_date, end_date)
+        start_datetime, end_datetime = self._check_and_convert_dates(start_date, end_date)
 
         if interval == "autointerval":
             interval = self._decide_interval(start_datetime, end_datetime)
@@ -84,7 +84,7 @@ class StockDashboardTDModel(StockDashboardModel):
                                 or failure on API's end.
         """
 
-        start_datetime, end_datetime = self._strip_dates(start_date, end_date)
+        start_datetime, end_datetime = self._check_and_convert_dates(start_date, end_date)
 
         unfil_it = (
             self._td_exception_handling(
@@ -101,7 +101,7 @@ class StockDashboardTDModel(StockDashboardModel):
 
         return fil_it
 
-    def _strip_dates(self, start_date: str, end_date: str):
+    def _check_and_convert_dates(self, start_date: str, end_date: str):
         try:
             start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
             end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
@@ -109,6 +109,9 @@ class StockDashboardTDModel(StockDashboardModel):
             raise ValueError("Invalid Input...")
 
         if start_datetime < datetime(year=1900, month=1, day=1) or end_datetime > datetime.now():
+            raise ValueError("Invalid Input...")
+
+        if end_datetime <= start_datetime:
             raise ValueError("Invalid Input...")
 
         return start_datetime, end_datetime
