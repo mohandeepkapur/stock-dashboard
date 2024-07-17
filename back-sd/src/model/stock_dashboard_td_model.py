@@ -103,11 +103,14 @@ class StockDashboardTDModel(StockDashboardModel):
 
     def _check_and_convert_dates(self, start_date: str, end_date: str):
         """
-        Ensures dates are correctly formatted and interval is sensible.
+        Ensures dates are correctly formatted and dates and interval are sensible (for ex:
+        start date must be before end date).
 
         :param start_date:          start date
         :param end_date:            end date
         :return:                    start and end dates in datetime format
+        :raise ValueError:          if either start/end date are not in valid format,
+                                    or if range or dates aren't sensible.
         """
 
         try:
