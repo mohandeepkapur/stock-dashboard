@@ -3,8 +3,7 @@ from quart_cors import cors
 from quart import request
 from src.model.stock_dashboard_td_model import StockDashboardTDModel
 
-sd_server = Quart(__name__)
-sd_server = cors(sd_server)
+sd_server = cors(Quart(__name__), allow_origin="http://localhost:3000")
 
 @sd_server.route('/sd-api/price-time-series', methods=['GET'])
 async def provide_price_time_series():

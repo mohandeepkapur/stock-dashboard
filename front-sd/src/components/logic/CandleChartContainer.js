@@ -4,7 +4,14 @@ import '../../App.css'
 import CandleChart from "../view/CandleChart";
 
 /**
- * Container for Candlestick Chart, holds its functionality.
+ * Container for Candlestick (OHLC) + Market Volume Chart. Holds functionality such as SD API
+ * queries and transforming received data to Apex-Grid Compatible format. Delegates rendering.
+ *
+ * @param symbol            The ticker:exchange symbol to fetch data for.
+ * @param startDate         The start date in yyyy-mm-dd format.
+ * @param endDate           The end date in yyyy-mm-dd format.
+ * @returns {Element}       The OHLC/MV Chart given above params.
+ * @constructor
  */
 const CandleChartContainer = ({symbol, startDate, endDate}) => {
 
@@ -15,6 +22,11 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
     const [markVolData, setMarkVolData] = useState(null);
 
     useEffect(() => {
+
+        /**
+         * Fetches OHLC and MV data from SD API and transforms data to Apex-Grid Compatible format.
+         * @returns {Promise<void>}
+         */
         const fetchChartData = async () => {
             setLoading(true);
             setError(false);
@@ -27,20 +39,17 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
                                                                                startDate,
                                                                                endDate,
                                                                                'autointerval');
-
                 let apexOptPriceData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.open), parseFloat(item.high),
                         parseFloat(item.low), parseFloat(item.close)]
                 }));
-
                 apexOptPriceData = apexOptPriceData.reverse();
 
                 let apexOptMVData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.volume)]
                 }));
-
                 apexOptMVData = apexOptMVData.reverse();
 
                 setCandleData(apexOptPriceData);
@@ -52,12 +61,10 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
                 setLoading(false);
             }
         };
-        console.log("useEffect in CandleChart triggered")
         fetchChartData();
     }, [symbol, startDate, endDate]);
 
-
-    return(
+    return (
         <CandleChart
             symbol={symbol}
             candleData={candleData}

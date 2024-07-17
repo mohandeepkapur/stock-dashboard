@@ -4,7 +4,13 @@
 export default class SdApiClient {
 
     /**
-     * Fetches both OHLC and Market Volume data.
+     * Fetches OHLC and Market Volume data from SD Server.
+     *
+     * @param symbol            The ticker:exchange symbol to fetch data for
+     * @param startDate         The start date in yyyy-mm-dd format
+     * @param endDate           The end date in yyyy-mm-dd format
+     * @param interval          The time-width of each candlestick
+     * @returns {Promise<*>}
      */
     async fetchCandlestickChartData(symbol, startDate, endDate, interval) {
         console.log('CCData Connection attempted... ');
@@ -27,7 +33,12 @@ export default class SdApiClient {
     }
 
     /**
-     * Fetches Insider trading data.
+     * Fetches Insider trading data from SD Server.
+     *
+     * @param symbol            The ticker:exchange symbol to fetch data for
+     * @param startDate         The start date in yyyy-mm-dd format
+     * @param endDate           The end date in yyyy-mm-dd format
+     * @returns {Promise<*>}
      */
     async fetchInsiderTradingData(symbol, startDate, endDate) {
         console.log('CCData Connection attempted... ');
@@ -48,6 +59,11 @@ export default class SdApiClient {
         return resp_json;
     }
 
+    /**
+     * Checks whether SD Server has thrown an error.
+     *
+     * @param response      SD Server's response
+     */
     #throwIfRespIsError(response) {
         console.log("server received error " + JSON.stringify(response));
         if (Object.keys(response).includes('sd_server_error')) {

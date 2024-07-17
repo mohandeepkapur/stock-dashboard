@@ -1,20 +1,46 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
+/**
+ * Renders Insider Trading Chart.
+ *
+ * @param symbol                Stock that is being displayed.
+ * @param error                 If error encountered when trying to fetch and process OHLC/MV data.
+ * @param errorMessage          Relevant error message for above.
+ * @param loading               Whether chart data still being fetched or not.
+ * @param itData                Insider Trading data (Shares Sold) to be rendered.
+ * @returns {Element}
+ * @constructor
+ */
 const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => {
     const options = {
-        bar: {
-            dataLabels:{hideOverflowingLabels:true}
-        },
         chart: {
-            type: 'candlestick',
+            type: 'bar',
             height: 350
         },
         tooltip: {
             theme: 'dark',
-            custom: function({series, seriesIndex, dataPointIndex, w}) {
+            custom: function ({series, seriesIndex, dataPointIndex, w}) {
                 let data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-                return '<div>' + data.name + '<div/>';
+                let shares = Intl.NumberFormat(
+                    'en-US', {
+                        notation: "compact",
+                        maximumFractionDigits: 4
+                    }).format(Math.round(Math.pow(data.y, 10)))
+                let value = Intl.NumberFormat(
+                    'en-US', {
+                        notation: "compact",
+                        maximumFractionDigits: 4
+                    }).format(data.value)
+
+                return `
+                  <div>
+                    <div>Name: ${data.name}</div>
+                    <div>Shares sold: ${shares}</div>
+                    <div>Value: ${value}</div>
+                    <div>Position: ${data.position}</div>
+                  </div>
+                `;
             }
         },
         title: {
@@ -40,9 +66,16 @@ const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => 
                         }).format(val);
                 }
             }
+        },
+        dataLabels: {
+            enabled: false
         }
     };
 
+    /**
+     * Renders Chart and Error and Loading messages.
+     * @returns {Element}
+     */
     const renderChart = () => {
         if (loading) {
             return <div><h3>Loading data...</h3></div>;
@@ -53,10 +86,11 @@ const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => 
                 <div className={'flex-item'}>
                     <ReactApexChart
                         options={options}
+
                         series={[
-                            {name: 'IT', type: 'column', data: itData}
+                            {name: 'Shares Sold', type: 'bar', data: itData}
                         ]}
-                        type="bar"
+                        type="candlestick" // intentional misclassif for UI
                         height={350}
                     />
                 </div>

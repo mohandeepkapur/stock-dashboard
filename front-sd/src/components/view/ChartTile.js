@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import CandleChartContainer from '../logic/CandleChartContainer';
 import SubmitButtonContainer from '../logic/SubmitButtonContainer';
 import InputBox from '../logic/InputBox';
-import InsiderTradingGridContainer from '../logic/InsiderTradingGridContainer';
 import InsiderTradingChartContainer from "../logic/InsiderTradingChartContainer";
 
 /**
- * Renders interactive Candlestick chart tile (all components: input box, buttons, chart).
+ * Renders interactive chart tile (all components: input box, buttons, price/mv and insider trading
+ * chart).
  */
 export default class ChartTile extends Component {
     render() {
@@ -58,9 +58,7 @@ export default class ChartTile extends Component {
                             endDate={chartInputData.endDate}
                         />
                     </div>
-                </div>
-                <div className={'flex-container-center'}>
-                    <div className={'flex-item'}>
+                    <div className='flex-item'>
                         <InsiderTradingChartContainer
                             symbol={chartInputData.symbol}
                             startDate={chartInputData.startDate}

@@ -2,28 +2,43 @@ import React, {useState} from 'react';
 import ChartTile from '../view/ChartTile';
 
 /**
- * Interactive tile that contains linked buttons, input boxes, and price/mv time-series chart.
+ * Interactive Tile that links together buttons and input boxes to Candlestick/MV time-series and
+ * insider trading chart.
  */
 const ChartTileContainer = () => {
     const [symbol, setSymbol] = useState('AAPL');
     const [startDate, setStartDate] = useState(getDateRange('1yr').startDate);
     const [endDate, setEndDate] = useState(getDateRange('1yr').endDate);
-
     const [chartInputData, setChartInputData] =
         useState({symbol: 'AAPL', startDate: startDate, endDate: endDate}); //init
 
+    /**
+     *
+     * @param value
+     */
     const setSymbolAsInput = (value) => {
         setSymbol(value);
     }
 
+    /**
+     *
+     * @param value
+     */
     const setStartDateAsInput = (value) => {
         setStartDate(value);
     }
 
+    /**
+     *
+     * @param value
+     */
     const setEndDateAsInput = (value) => {
         setEndDate(value);
     }
 
+    /**
+     *
+     */
     const sendUserInputToChart = () => {
         if (!symbol || !startDate || !endDate) {
             alert("Please fill in all fields.");
@@ -33,6 +48,10 @@ const ChartTileContainer = () => {
         console.log("updated chartInputData state... " + JSON.stringify(chartInputData));
     }
 
+    /**
+     *
+     * @param range
+     */
     const sendRangeInputToChart = (range) => {
 
         if (!symbol) {
@@ -49,19 +68,23 @@ const ChartTileContainer = () => {
         setChartInputData({symbol: symbol, startDate: startDate, endDate: endDate});
     }
 
+    /**
+     *
+     * @param option
+     * @returns {{endDate: string, startDate: string}}
+     */
     function getDateRange(option) {
         const today = new Date();
         let startDate;
-        let endDate = new Date(today); // default end date is today
+        let endDate = new Date(today);
 
         switch (option) {
             case '1day':
-                // td spef?
                 startDate = new Date();
                 startDate.setDate(today.getDate() - 1);
                 if (startDate.getDay() === 6) {
                     startDate.setDate(startDate.getDate() - 1);
-                } else if (startDate.getDay() === 0) { // Sunday
+                } else if (startDate.getDay() === 0) {
                     startDate.setDate(startDate.getDate() - 2);
                 }
                 break;

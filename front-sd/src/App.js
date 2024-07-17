@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import AppHeader from './components/view/AppHeader'
 import ChartTileContainer from './components/logic/ChartTileContainer';
 import './App.css'

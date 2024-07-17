@@ -44,8 +44,8 @@ class StockDashboardTDModel(StockDashboardModel):
             raise RuntimeError("Upstream server failure...")
         except TwelveDataError as e:
             if "run out of API credits" in str(e):
-                raise ValueError("Dashboard ran out of api credits for THIS minute... ")
-            raise ValueError("INVALID INPUT...")
+                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
+            raise RuntimeError("INVALID INPUT...")
 
         return price_ts
 
@@ -61,8 +61,8 @@ class StockDashboardTDModel(StockDashboardModel):
             raise RuntimeError("Upstream server failure...")
         except TwelveDataError as e:
             if "run out of API credits" in str(e):
-                raise ValueError("Dashboard ran out of api credits for THIS minute... ")
-            raise ValueError("INVALID INPUT...")
+                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
+            raise RuntimeError("INVALID INPUT...")
 
         sd = datetime.strptime(start_date, '%Y-%m-%d')
         ed = datetime.strptime(end_date, '%Y-%m-%d')
@@ -77,6 +77,10 @@ class StockDashboardTDModel(StockDashboardModel):
     def _decide_interval(self, start_date: str, end_date: str):
         """
         Choose interval given date-range for largest # of returned bars <= threshold.
+
+        :param start_date:  start date of interval
+        :param end_date:    end date of interval
+        :raise ValueError:  if somehow given timespan cannot be rendered w/ "threshold" datapoints
         """
 
         start = datetime.strptime(start_date, '%Y-%m-%d')
