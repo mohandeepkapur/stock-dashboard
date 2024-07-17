@@ -11,15 +11,16 @@ class StockDashboardTDModel(StockDashboardModel):
     def __init__(self):
         self.td_client = None
 
-    def connect(self, apikey: str):
-
+    def connect(self):
         try:
-            # read from a dir instead
+            file = open('src/apikey.txt')
+            apikey = file.readline().strip()
             self.td_client = TDClient(apikey=apikey)
-            # manner of checking apikey validity below is wasteful - forcing error
-            a = self.td_client.price(symbol='TRP:TSX').as_json()
+            self.td_client.price(symbol='TRP:TSX').execute() # checks api key validity
         except InvalidApiKeyError:
             raise ValueError(f"Invalid api key...")
+        except FileNotFoundError:
+            raise FileNotFoundError # repeated to be explicit about scope of errors code can throw
 
     def obs_price_time_series(self, symbol: str, start_date: str, end_date: str, interval: str):
 

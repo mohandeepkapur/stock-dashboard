@@ -6,9 +6,12 @@ class StockDashboardModel(ABC):
     """
 
     @abstractmethod
-    def connect(self, apikey: str):
+    def connect(self):
         """
-        Connect to relevant API.
+        Connect to relevant API using API Key stored in Backend.
+
+        :raise ValueError: for invalid API key
+        :raise FileNotFoundError: if file-path to apikey invalid
         """
         pass
 

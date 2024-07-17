@@ -1,7 +1,6 @@
 from quart import Quart, jsonify
 from quart_cors import cors
 from quart import request
-from quart import abort
 from src.model.stock_dashboard_td_model import StockDashboardTDModel
 
 sd_server = Quart(__name__)
@@ -59,7 +58,9 @@ async def provide_insider_trades():
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()
     try:
-        sd_model.connect(apikey="2a27db5e2ffd4034a6407a67784a485f")
+        sd_model.connect()
         sd_server.run(debug=True)
     except ValueError as e:
         print(e)
+    except FileNotFoundError as e:
+        print(str(e))
