@@ -25,6 +25,7 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
 
         /**
          * Fetches OHLC and MV data from SD API and transforms data to Apex-Grid Compatible format.
+         *
          * @returns {Promise<void>}
          */
         const fetchChartData = async () => {

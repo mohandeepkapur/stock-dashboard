@@ -9,7 +9,7 @@ import ReactApexChart from 'react-apexcharts';
  * @param errorMessage          Relevant error message for above.
  * @param loading               Whether chart data still being fetched or not.
  * @param itData                Insider Trading data (Shares Sold) to be rendered.
- * @returns {Element}
+ * @returns {Element}           IT chart or Error or Loading message
  * @constructor
  */
 const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => {
@@ -73,8 +73,8 @@ const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => 
     };
 
     /**
-     * Renders Chart and Error and Loading messages.
-     * @returns {Element}
+     * Renders Chart or Error or Loading message.
+     * @returns {Element}       Candlestick/MV chart or Error or Loading message
      */
     const renderChart = () => {
         if (loading) {

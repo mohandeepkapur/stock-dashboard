@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import ChartTile from '../view/ChartTile';
 
 /**
- * Interactive Tile that links together buttons and input boxes to Candlestick/MV time-series and
- * insider trading chart.
+ * Interactive Tile that links together SubmitButtons and InputBoxes to
+ * Candlestick and Insider Trading chart.
  */
 const ChartTileContainer = () => {
     const [symbol, setSymbol] = useState('AAPL');
@@ -13,31 +13,31 @@ const ChartTileContainer = () => {
         useState({symbol: 'AAPL', startDate: startDate, endDate: endDate}); //init
 
     /**
-     *
-     * @param value
+     * Callback that changes symbol state based on what is currently written in text-box.
+     * @param value   User input for symbol
      */
     const setSymbolAsInput = (value) => {
         setSymbol(value);
     }
 
     /**
-     *
-     * @param value
+     * Callback that changes start date state based on what is currently written in text-box.
+     * @param value   User input for start date
      */
     const setStartDateAsInput = (value) => {
         setStartDate(value);
     }
 
     /**
-     *
-     * @param value
+     * Callback that changes end date state based on what is currently written in text-box.
+     * @param value   User input for end date
      */
     const setEndDateAsInput = (value) => {
         setEndDate(value);
     }
 
     /**
-     *
+     * Triggers when user presses "Submit", changes state of fields that determine chart state.
      */
     const sendUserInputToChart = () => {
         if (!symbol || !startDate || !endDate) {
@@ -45,12 +45,13 @@ const ChartTileContainer = () => {
             return;
         }
         setChartInputData({symbol, startDate, endDate});
-        console.log("updated chartInputData state... " + JSON.stringify(chartInputData));
     }
 
     /**
-     *
-     * @param range
+     * Triggers when user presses date-buttons, changes state of fields that determine chart state.
+     * Depending on button-press, start and end-date interval sent to charts will be different.
+     * Interval based on current date. 1D provides last trading day.
+     * @param range             time-interval user chose
      */
     const sendRangeInputToChart = (range) => {
 
@@ -62,23 +63,25 @@ const ChartTileContainer = () => {
         const startDate = getDateRange(range).startDate;
         const endDate = getDateRange(range).endDate;
 
-        // changing chart input state will force chartcont to re-render -> new api call
+        // *** changing chart input state will force charts to re-render -> new api calls
         setStartDate(startDate);
         setEndDate(endDate);
         setChartInputData({symbol: symbol, startDate: startDate, endDate: endDate});
     }
 
     /**
+     * Given interval, determines start and end dates beginning from current day
+     * that match interval.
      *
-     * @param option
-     * @returns {{endDate: string, startDate: string}}
+     * @param interval                                          time-interval
+     * @returns {{endDate: string, startDate: string}}          resulting start and end dates
      */
-    function getDateRange(option) {
+    function getDateRange(interval) {
         const today = new Date();
         let startDate;
         let endDate = new Date(today);
 
-        switch (option) {
+        switch (interval) {
             case '1day':
                 startDate = new Date();
                 startDate.setDate(today.getDate() - 1);
@@ -109,7 +112,7 @@ const ChartTileContainer = () => {
                 startDate.setFullYear(today.getFullYear() - 10);
                 break;
             default:
-                throw new Error('Invalid option');
+                throw new Error('Invalid interval');
         }
 
         const format = (date) => {

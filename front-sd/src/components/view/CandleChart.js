@@ -10,7 +10,7 @@ import ReactApexChart from 'react-apexcharts';
  * @param loading               Whether chart data still being fetched or not.
  * @param candleData            OHLC data to be rendered.
  * @param markVolData           MV data to be rendered.
- * @returns {*}
+ * @returns {*}                 Candlestick/MV chart or Error or Loading message
  * @constructor
  */
 const CandleChart = ({symbol, error, errorMessage, loading, candleData, markVolData}) => {
@@ -66,8 +66,8 @@ const CandleChart = ({symbol, error, errorMessage, loading, candleData, markVolD
     };
 
     /**
-     * Renders Chart and Error and Loading messages.
-     * @returns {Element}
+     * Renders Chart or Error or Loading message.
+     * @returns {Element}       Candlestick/MV chart or Error or Loading message
      */
     const renderChart = () => {
         if (loading) {

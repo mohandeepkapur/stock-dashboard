@@ -23,6 +23,7 @@ const InsiderTradingChartContainer = ({symbol, startDate, endDate}) => {
         /**
          * Fetches Insider Trading (shares sold) data from SD API and transforms data to
          * Apex-Grid Compatible format.
+         *
          * @returns {Promise<void>}
          */
         const fetchITData = async () => {
