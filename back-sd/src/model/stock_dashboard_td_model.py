@@ -153,5 +153,5 @@ class StockDashboardTDModel(StockDashboardModel):
             raise RuntimeError("Upstream server failure...")
         except TwelveDataError as e:
             if "run out of API credits" in str(e):
-                raise RuntimeError("Dashboard ran out of api credits for THIS minute... ")
+                raise RuntimeError("Dashboard ran out of api credits for current minute... ")
             raise ValueError("Invalid Input...")
