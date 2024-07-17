@@ -16,13 +16,13 @@ Notes:
 2. To set up SD Server: In back-sd/ run the command: `python3 -m src.server.sd_server`. Use the URL provided to link SdApiClient to the server if different than default one in place.
 3. To set up React front-end: in front-sd, run the command: `npm start`
 
-Try it on:
-AAPL (Apple Inc)
-QQQ (Invesco QQQ Trust)
-ABML (American Battery Metals Corporation)
-IXIC (NASDAQ Composite)
-VFIAX (Vanguard 500 Index Fund)
-
+# Try it on:
+- AAPL (Apple Inc)
+- QQQ (Invesco QQQ Trust)
+- ABML (American Battery Metals Corporation)
+- TRP:TSX (TC Energy Corp)
+- 7203:JPX (Toyota Motor Corporation)
+- SLBEN:Euronext (Sport Lisboa e Benfica - Futebol, SAD)
 
 # Dependencies 
 Included in `front-sd/src/package.json` and `back-sd/src/requirements.txt`.
