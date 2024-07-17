@@ -6,16 +6,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SdApiClient from "../../sd-api-client/SdApiClient"; // Optional Theme applied to the Data Grid
 
 const InsiderTradingGridContainer = ({symbol}) => {
-    // Row Data: The data to be displayed.
-    /*
-    name:
-    position:
-    date reported:
-    is_direct
-    shares
-    value
-    description
-     */
+
     const [rowData, setRowData] = useState([
                                                {name: "Bob", position: "Goodman"}
                                            ]);

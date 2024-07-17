@@ -22,15 +22,16 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
             // debugger
             try {
                 // make api call, convert to apex-chart compat. data
-                const rawPriceData = await SdApiClient.fetchCandlestickChartData(symbol, startDate,
-                                                                                 endDate,
-                                                                                 'autointerval');
+                const sd_client = new SdApiClient();
+                const rawPriceData = await sd_client.fetchCandlestickChartData(symbol,
+                                                                               startDate,
+                                                                               endDate,
+                                                                               'autointerval');
 
                 let apexOptPriceData = rawPriceData.map(item => ({
                     x: new Date(item.datetime),
                     y: [parseFloat(item.open), parseFloat(item.high),
-                        parseFloat(item.low), parseFloat(item.close)],
-                    z: [1009]
+                        parseFloat(item.low), parseFloat(item.close)]
                 }));
 
                 apexOptPriceData = apexOptPriceData.reverse();
@@ -42,7 +43,6 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
 
                 apexOptMVData = apexOptMVData.reverse();
 
-                console.log(JSON.stringify(apexOptMVData))
                 setCandleData(apexOptPriceData);
                 setMarkVolData(apexOptMVData);
             } catch (error) {
@@ -56,19 +56,17 @@ const CandleChartContainer = ({symbol, startDate, endDate}) => {
         fetchChartData();
     }, [symbol, startDate, endDate]);
 
-    if (loading) {
-        return <div><h3>Loading data... </h3></div>
-    } else if (error) {
-        return <div><h3>Error loading data... : {errorMessage}</h3></div>
-    } else {
-        return (
-            <CandleChart
-                symbol={symbol}
-                candleData={candleData}
-                markVolData={markVolData}
-            />
-        );
-    }
+
+    return(
+        <CandleChart
+            symbol={symbol}
+            candleData={candleData}
+            markVolData={markVolData}
+            error={error}
+            errorMessage={errorMessage}
+            loading={loading}
+        />
+    );
 
 };
 

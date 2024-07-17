@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const InsiderTradingChart = ({symbol, itData}) => {
+const InsiderTradingChart = ({symbol, itData, error, errorMessage, loading}) => {
     const options = {
-        // three configs bellow common to all funcs
+        bar: {
+            dataLabels:{hideOverflowingLabels:true}
+        },
         chart: {
             type: 'candlestick',
             height: 350
         },
         tooltip: {
             theme: 'dark',
+            custom: function({series, seriesIndex, dataPointIndex, w}) {
+                let data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
+                return '<div>' + data.name + '<div/>';
+            }
         },
         title: {
-            text: " OHLC and MV Time-Series: " + symbol,
+            text: " Insider Trades: " + symbol,
             align: 'center'
         },
         xaxis: {
@@ -21,15 +27,13 @@ const InsiderTradingChart = ({symbol, itData}) => {
                 datetimeUTC: false
             }
         },
-        colors: ['#7CB285', '#C2D8DC', '#fc3114'],
-        // sep configs for sep funcs
         yaxis: {
             title: {
-                text: 'USD',
+                text: 'Log(Number of Shares Sold)',
             },
             labels: {
                 formatter: function (val) {
-                    return "$" + Intl.NumberFormat(
+                    return Intl.NumberFormat(
                         'en-US', {
                             notation: "compact",
                             maximumFractionDigits: 2
@@ -39,18 +43,29 @@ const InsiderTradingChart = ({symbol, itData}) => {
         }
     };
 
-    return (
-        <div className={'flex-item'}>
-            <ReactApexChart
-                options={options}
-                series={[
-                    {name: 'Ins Trad', type: 'bar', data: itData}
-                ]}
-                type="bar"
-                height={350}
-            />
-        </div>
-    );
+    const renderChart = () => {
+        if (loading) {
+            return <div><h3>Loading data...</h3></div>;
+        } else if (error) {
+            return <div><h3>Error loading data... : {errorMessage}</h3></div>;
+        } else {
+            return (
+                <div className={'flex-item'}>
+                    <ReactApexChart
+                        options={options}
+                        series={[
+                            {name: 'IT', type: 'column', data: itData}
+                        ]}
+                        type="bar"
+                        height={350}
+                    />
+                </div>
+            );
+        }
+    }
+
+    return (renderChart());
+
 }
 
-export default InsiderTradingChart;
+export default React.memo(InsiderTradingChart);

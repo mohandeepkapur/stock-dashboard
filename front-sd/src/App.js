@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AppHeader from './components/view/AppHeader'
-import CandleChartTileContainer from './components/logic/CandleChartTileContainer';
+import ChartTileContainer from './components/logic/ChartTileContainer';
 import './App.css'
 
 /**
@@ -14,7 +14,7 @@ export default class App extends Component {
                     <AppHeader/>
                 </div>
                 <div>
-                    <CandleChartTileContainer/>
+                    <ChartTileContainer/>
                 </div>
             </div>
         );

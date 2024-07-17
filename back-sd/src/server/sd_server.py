@@ -26,12 +26,35 @@ async def provide_price_time_series():
             interval=interval.strip()
         )
     except ValueError as e:
-        abort(400, str(e))
+        resp = {'sd_server_error' : str(e)}
     except RuntimeError as e:
-        abort(502, str(e))
+        resp = {'sd_server_error' : str(e)}
 
     return jsonify(resp)
 
+@sd_server.route('/sd-api/insider-trades', methods=['GET'])
+async def provide_insider_trades():
+    """
+    Provides Insider Trades for given symbol and date range.
+    """
+
+    symbol = request.args.get('symbol')
+    start_date = request.args.get('startDate')
+    end_date = request.args.get('endDate')
+
+    try:
+        print("tried to run model method.. running")
+        resp = sd_model.obs_insider_trades(
+            symbol=symbol.strip(),
+            start_date=start_date.strip(),
+            end_date=end_date.strip()
+        )
+    except ValueError as e:
+        resp = {'sd_server_error' : str(e)}
+    except RuntimeError as e:
+        resp = {'sd_server_error' : str(e)}
+
+    return jsonify(resp)
 
 if __name__ == '__main__':
     sd_model = StockDashboardTDModel()

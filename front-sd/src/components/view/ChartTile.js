@@ -8,7 +8,7 @@ import InsiderTradingChartContainer from "../logic/InsiderTradingChartContainer"
 /**
  * Renders interactive Candlestick chart tile (all components: input box, buttons, chart).
  */
-export default class CandleChartTile extends Component {
+export default class ChartTile extends Component {
     render() {
         const {
             symbol,
@@ -59,15 +59,15 @@ export default class CandleChartTile extends Component {
                         />
                     </div>
                 </div>
-                {/*<div className={'flex-container-center'}>*/}
-                {/*    <h4 style={{width: '100%', textAlign: 'center', color: 'black'}}>*/}
-                {/*        /!*not just symbol, rt updates then*!/*/}
-                {/*        Insider Trading for {chartInputData.symbol}*/}
-                {/*    </h4>*/}
-                {/*    <div className={'flex-item'}>*/}
-                {/*        <InsiderTradingChartContainer symbol={chartInputData.symbol}/>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className={'flex-container-center'}>
+                    <div className={'flex-item'}>
+                        <InsiderTradingChartContainer
+                            symbol={chartInputData.symbol}
+                            startDate={chartInputData.startDate}
+                            endDate={chartInputData.endDate}
+                        />
+                    </div>
+                </div>
                 <div className='flex-container-center'>
                     <div style={{width: '100%', textAlign: 'center', color: 'black'}}>
                         Please provide symbol in ticker:exchange format, and dates in yyyy-mm-dd

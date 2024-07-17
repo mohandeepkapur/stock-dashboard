@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 /**
  * Renders Candlestick Chart w/ MV bars. Component responsible for config.
  */
-const CandleChart = ({symbol, candleData, markVolData}) => {
+const CandleChart = ({symbol, error, errorMessage, loading, candleData, markVolData}) => {
     const options = {
         // three configs bellow common to all funcs
         chart: {
@@ -12,11 +12,7 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
             height: 350
         },
         tooltip: {
-            theme: 'dark',
-            custom: function({series, seriesIndex, dataPointIndex, w}) {
-                let data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-                return '<div>' + data.z + '<div/>'
-            }
+            theme: 'dark'
         },
         title: {
             text: " OHLC and MV Time-Series: " + symbol,
@@ -60,18 +56,30 @@ const CandleChart = ({symbol, candleData, markVolData}) => {
         }]
     };
 
+    const renderChart = () => {
+        if (loading) {
+            return <div><h3>Loading data... </h3></div>
+        } else if (error) {
+            return <div><h3>Error loading data... : {errorMessage}</h3></div>
+        } else {
+            return (
+                <div className={'flex-item'}>
+                    <ReactApexChart
+                        options={options}
+                        series={[
+                            {name: 'OHLC', type: 'candlestick', data: candleData},
+                            {name: 'Market Volume', type: 'bar', data: markVolData}
+                        ]}
+                        type="candlestick"
+                        height={350}
+                    />
+                </div>
+            );
+        }
+    }
+
     return (
-        <div className={'flex-item'}>
-            <ReactApexChart
-                options={options}
-                series={[
-                    {name: 'OHLC', type: 'candlestick', data: candleData},
-                    {name: 'Market Volume', type: 'bar', data: markVolData}
-                ]}
-                type="candlestick"
-                height={350}
-            />
-        </div>
+        renderChart()
     );
 }
 

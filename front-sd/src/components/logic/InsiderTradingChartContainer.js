@@ -19,13 +19,20 @@ const InsiderTradingChartContainer = ({symbol, startDate, endDate}) => {
             setErrorMessage('');
 
             try {
-                // const rawITData = await SdApiClient.fetchInsiderTradingData(symbol, startDate, endDate);
-                //
-                // let apexOptITData = rawITData.map(item => ({
-                //     x: new Date(item.date_reported),
-                //     y: [parseFloat(item.shares)]
-                // }));
+                const sd_client = new SdApiClient();
+                const rawITData = await sd_client.fetchInsiderTradingData(symbol,
+                                                                          startDate,
+                                                                          endDate);
 
+                let apexOptITData = rawITData.map(item => ({
+                    x: new Date(item.date_reported),
+                    y: [takeSafeLog(item.shares)],
+                    name: [item.full_name],
+                    position: [item.position],
+                    value: [item.value]
+                }));
+
+                setITData(apexOptITData)
             } catch (error) {
                 setError(true);
                 setErrorMessage(error.message);
@@ -36,19 +43,23 @@ const InsiderTradingChartContainer = ({symbol, startDate, endDate}) => {
         fetchITData();
     }, [symbol, startDate, endDate]);
 
-    if (loading) {
-        return <div><h3>Loading data... </h3></div>
-    } else if (error) {
-        return <div><h3>Error loading data... : {errorMessage}</h3></div>
-    } else {
-        return (
-            <InsiderTradingChart
-                symbol={symbol}
-                itData={itData}
-            />
-        );
+    function takeSafeLog(shares) {
+        if (shares <= 1) {
+            return 0;
+        }
+        return Math.log10(shares);
     }
+
+    return (
+        <InsiderTradingChart
+            symbol={symbol}
+            itData={itData}
+            error={error}
+            errorMessage={errorMessage}
+            loading={loading}
+        />
+    );
 
 }
 
-export default InsiderTradingChartContainer;
+export default React.memo(InsiderTradingChartContainer);

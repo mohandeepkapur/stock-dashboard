@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import CandleChartTile from '../view/CandleChartTile';
+import ChartTile from '../view/ChartTile';
 
 /**
  * Interactive tile that contains linked buttons, input boxes, and price/mv time-series chart.
  */
-const CandleChartTileContainer = () => {
+const ChartTileContainer = () => {
     const [symbol, setSymbol] = useState('AAPL');
     const [startDate, setStartDate] = useState(getDateRange('1yr').startDate);
     const [endDate, setEndDate] = useState(getDateRange('1yr').endDate);
@@ -103,7 +103,7 @@ const CandleChartTileContainer = () => {
     }
 
     return (
-        <CandleChartTile
+        <ChartTile
             symbol={symbol}
             startDate={startDate}
             endDate={endDate}
@@ -117,4 +117,4 @@ const CandleChartTileContainer = () => {
     );
 }
 
-export default CandleChartTileContainer;
+export default ChartTileContainer;

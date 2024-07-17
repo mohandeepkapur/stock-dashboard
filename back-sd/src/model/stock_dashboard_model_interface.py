@@ -31,6 +31,11 @@ class StockDashboardModel(ABC):
         """
         pass
 
+    @abstractmethod
+    def obs_insider_trades(self, symbol: str, start_date: str, end_date: str):
+        pass
+
+
     # methods for additional features below:
     # @abstractmethod
     # def obs_tech_ind_time_series(self, symbol: str, start_date: str, end_date: str, ind: str):
@@ -53,10 +58,6 @@ class StockDashboardModel(ABC):
 
     # @abstractmethod
     # def which_trend(self, symbol: str, start_date: str, end_date: str):
-    #     pass
-
-    # @abstractmethod
-    # def obs_insider_trading(self, symbol: str, start_date: str, end_date: str):
     #     pass
 
     # @abstractmethod
