@@ -102,6 +102,14 @@ class StockDashboardTDModel(StockDashboardModel):
         return fil_it
 
     def _check_and_convert_dates(self, start_date: str, end_date: str):
+        """
+        Ensures dates are correctly formatted and interval is sensible.
+
+        :param start_date:          start date
+        :param end_date:            end date
+        :return:
+        """
+
         try:
             start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
             end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
