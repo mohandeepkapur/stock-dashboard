@@ -107,7 +107,7 @@ class StockDashboardTDModel(StockDashboardModel):
 
         :param start_date:          start date
         :param end_date:            end date
-        :return:
+        :return:                    start and end dates in datetime format
         """
 
         try:
