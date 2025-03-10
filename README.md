@@ -12,7 +12,7 @@ Notes:
 
 # How to use:
 
-1. Free API key needed by Twelve Data. Write into first line of back-sd/apikey.txt
+1. Free API key needed by Twelve Data. Generate .env file in backend/ and assign api key to TWELVE_DATA_API_KEY=
 2. To set up SD Server: In back-sd/ run the command: `python3 -m src.server.sd_server`. Use the URL provided to link SdApiClient to the server if different than default one in place.
 3. To set up React front-end: in front-sd, run the command: `npm start`
 
