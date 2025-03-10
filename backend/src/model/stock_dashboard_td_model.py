@@ -2,11 +2,16 @@ from twelvedata import TDClient
 from twelvedata.exceptions import TwelveDataError, BadRequestError, InternalServerError, InvalidApiKeyError
 from datetime import datetime
 from src.model.stock_dashboard_model_interface import StockDashboardModel
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class StockDashboardTDModel(StockDashboardModel):
     """
     Implementation of StockDashboardModel with TwelveData's Stock API.
     """
+
 
     def __init__(self):
         self.td_client = None
@@ -16,19 +21,14 @@ class StockDashboardTDModel(StockDashboardModel):
         Connect to relevant API using API Key stored in Backend.
 
         :raise ValueError: for invalid API key
-        :raise FileNotFoundError: if file-path to apikey invalid
         """
 
         try:
-            file = open('src/apikey.txt')
-            apikey = file.readline().strip()
-            self.td_client = TDClient(apikey=apikey)
+            self.td_client = TDClient(apikey=os.getenv('TWELVE_DATA_API_KEY'))
             self.td_client.price(symbol='TRP:TSX').execute() # checks api key validity
         except InvalidApiKeyError:
             raise ValueError(f"Invalid api key...")
-        except FileNotFoundError:
-            raise FileNotFoundError # repeated to be explicit about scope of errors code can throw
-
+        
     def obs_price_time_series(self, symbol: str, start_date: str, end_date: str, interval: str):
         """
         Provides historical OHLC (Open, High, Low, Close) and MV (Market Volume) time-series data
